@@ -1,0 +1,22 @@
+apiVersion: skaffold/v2alpha3
+kind: Config
+deploy:
+  kubectl:
+    manifests:
+      - ./infra/k8s/*
+build:
+  local:
+    # on build, do not push to docker hub
+    push: false
+  artifacts:
+    - image: quantacake/auth
+      # folder that contains all the code for the image
+      context: auth
+      docker:
+        dockerfile: Dockerfile
+      # how to handle files that are changed
+      sync:
+        manual: # manual configuration
+          # watch files with ts
+          - src: 'src/**/*.ts'
+            dest: . # where to sync inside the running container
