@@ -7,6 +7,22 @@ interface UserAttrs {
   password: string;
 }
 
+// An interface that describes the properties that a user model has.
+// E.g. Methods associated with a user model like 'build'.
+interface UserModel extends mongoose.Model<UserDoc> {
+  build(attrs: UserAttrs): UserDoc;
+}
+
+// An interface that describes the properties that a User Document has.
+// Describes the properties of a single user.
+// Also contains properties that are auto created by mongoose like 'createdAt'.
+interface UserDoc extends mongoose.Document {
+  // definition of a UserDoc contains all the properties that a
+  // normal mongoose document has and our custom ones.
+  email: string;
+  password: string;
+}
+
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
@@ -23,11 +39,6 @@ userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
 
-const User = mongoose.model('User', userSchema);
-
-// builder (enforces typescript to type check mongoose attributes)
-// const buildUser = (attrs: UserAttrs) => {
-//   return new User(attrs);
-// };
+const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User };
