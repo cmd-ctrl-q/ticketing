@@ -18,11 +18,16 @@ const userSchema = new mongoose.Schema({
   },
 });
 
+// custom function for user model, add to statics property on schema.
+userSchema.statics.build = (attrs: UserAttrs) => {
+  return new User(attrs);
+};
+
 const User = mongoose.model('User', userSchema);
 
 // builder (enforces typescript to type check mongoose attributes)
-const buildUser = (attrs: UserAttrs) => {
-  return new User(attrs);
-};
+// const buildUser = (attrs: UserAttrs) => {
+//   return new User(attrs);
+// };
 
 export { User };
