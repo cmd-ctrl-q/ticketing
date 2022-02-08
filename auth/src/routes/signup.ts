@@ -1,5 +1,6 @@
 import express, { Request, Response } from 'express';
 import { body, validationResult } from 'express-validator';
+import { User } from '../models/user';
 import { RequestValidationError } from '../errors/request-validation-error';
 import { DatabaseConnectionError } from '../errors/database-connection-error';
 
@@ -16,20 +17,10 @@ router.post(
   ],
   async (req: Request, res: Response) => {
     const errors = validationResult(req);
-    // check potential errors
+
     if (!errors.isEmpty()) {
-      // handle errors
-      // return res.status(400).send(errors.array());
-      // express will capture any error thrown, and
-      // sends it to the error-handler middleware to be processed.
-      // throw new Error('Invalid email or password');
       throw new RequestValidationError(errors.array());
     }
-
-    console.log('Creating a user...');
-    // throw new Error('Error connecting to database.');
-    throw new DatabaseConnectionError();
-
     res.send({});
   }
 );
