@@ -30,8 +30,6 @@ router.post(
       throw new BadRequestError('Email in already use.');
     }
 
-    // new user, hash password
-
     // create user and save them to db
     const user = User.build({ email, password });
     await user.save();

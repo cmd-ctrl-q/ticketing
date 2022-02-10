@@ -1,4 +1,5 @@
 import mongoose, { mongo } from 'mongoose';
+import { Password } from '../services/password';
 
 interface UserAttrs {
   email: string;
@@ -23,6 +24,20 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+});
+
+// A mongoose middleware function.
+// anytime a document is saved, execute this function.
+userSchema.pre('save', async function (done) {
+  // check if user password is modified
+  // prevents an already hashed password from being re-hashed.
+  if (this.isModified('password')) {
+    // only hash the password if it has been modified.
+    const hashed = await Password.toHash(this.get('password'));
+    this.set('password', hashed);
+  }
+
+  done();
 });
 
 userSchema.statics.build = (attrs: UserAttrs) => {
