@@ -1,4 +1,3 @@
-# auth deployment
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -19,13 +18,12 @@ spec:
         - name: auth
           image: quantacake/auth
 ---
-# auth service
 apiVersion: v1
 kind: Service
 metadata:
   name: auth-srv
 spec:
-  type: ClusterIP # default type
+  type: ClusterIP
   selector:
     app: auth
   ports:
