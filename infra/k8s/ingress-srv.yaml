@@ -1,4 +1,3 @@
-# how to handle requests
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
