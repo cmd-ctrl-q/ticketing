@@ -12,12 +12,13 @@ import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
 
 const app = express();
+// trust traffic from ingress proxy
 app.set('trust proxy', true);
 app.use(json());
 app.use(
   cookieSession({
-    signed: false, // dont encrypt
-    secure: true, // http connection
+    signed: false, // disable encryption
+    secure: true, // enforce https connection
   })
 );
 
@@ -35,6 +36,7 @@ app.all('*', async (req, res) => {
 app.use(errorHandler);
 
 const start = async () => {
+  if (!process.env.JWT_KEY) throw new Error('JWT_KEY must be defined');
   try {
     await mongoose.connect('mongodb://auth-mongo-srv:27017/auth');
     console.log('Connected to MongoDB');
