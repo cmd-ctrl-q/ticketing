@@ -15,16 +15,31 @@ interface UserDoc extends mongoose.Document {
   password: string;
 }
 
-const userSchema = new mongoose.Schema({
-  email: {
-    type: String,
-    required: true,
+const userSchema = new mongoose.Schema(
+  {
+    email: {
+      type: String,
+      required: true,
+    },
+    password: {
+      type: String,
+      required: true,
+    },
   },
-  password: {
-    type: String,
-    required: true,
-  },
-});
+  {
+    toJSON: {
+      transform(_doc, ret) {
+        // re-map the _id property
+        ret.id = ret._id;
+        delete ret._id;
+        // remove password from the returning object
+        delete ret.password;
+        // remove the mongo version from the returning object
+        delete ret.__v;
+      },
+    },
+  }
+);
 
 // A mongoose middleware function.
 // anytime a document is saved, execute this function.
