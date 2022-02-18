@@ -10,7 +10,6 @@ import { signoutRouter } from './routes/signout';
 import { signupRouter } from './routes/signup';
 import { errorHandler } from './middlewares/error-handler';
 import { NotFoundError } from './errors/not-found-error';
-import { isTypeQueryNode } from 'typescript';
 
 const app = express();
 app.set('trust proxy', true);
@@ -47,3 +46,5 @@ const start = async () => {
     console.log('Listening on port 3000!!!!!');
   });
 };
+
+start();
