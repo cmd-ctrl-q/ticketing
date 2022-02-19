@@ -1,5 +1,5 @@
 import mongoose, { mongo } from 'mongoose';
-import { Password } from '../services/password';
+import { PasswordManager } from '../services/password';
 
 interface UserAttrs {
   email: string;
@@ -48,7 +48,7 @@ userSchema.pre('save', async function (done) {
   // prevents an already hashed password from being re-hashed.
   if (this.isModified('password')) {
     // only hash the password if it has been modified.
-    const hashed = await Password.toHash(this.get('password'));
+    const hashed = await PasswordManager.toHash(this.get('password'));
     this.set('password', hashed);
   }
 
