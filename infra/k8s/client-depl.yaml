@@ -1,0 +1,34 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: client-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: client
+  template:
+    metadata:
+      labels:
+        app: client
+    # describes how every pod should behave
+    spec:
+      containers:
+        - name: client
+          image: quantacake/client
+---
+# service that'll get access to the deployment pods
+apiVersion: v1
+kind: Service
+metadata:
+  name: client-srv
+spec:
+  # allows the service to find the pods that it will govern requests to
+  selector:
+    app: client
+  # accessible ports for the service
+  ports:
+    - name: client # not important
+      protocol: TCP
+      port: 3000
+      targetPort: 3000
