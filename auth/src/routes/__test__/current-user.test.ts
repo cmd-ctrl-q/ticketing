@@ -2,17 +2,19 @@ import request from 'supertest';
 import { app } from '../../app';
 
 it('responds with details about the current user', async () => {
-  // create new account
-  const signupResponse = await request(app)
-    .post('/api/users/signup')
-    .send({
-      email: 'test@test.com',
-      password: 'password',
-    })
-    .expect(201);
+  // // create new account
+  // const signupResponse = await request(app)
+  //   .post('/api/users/signup')
+  //   .send({
+  //     email: 'test@test.com',
+  //     password: 'password',
+  //   })
+  //   .expect(201);
 
   // capture cookie from initial request
-  const cookie = signupResponse.get('Set-Cookie');
+  // const cookie = signupResponse.get('Set-Cookie');
+
+  const cookie = await global.signin();
 
   // make request to current-user endpoint
   const response = await request(app)
