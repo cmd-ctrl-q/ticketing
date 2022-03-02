@@ -1,24 +1,23 @@
 import { useState } from 'react';
 import axios from 'axios';
+import useRequest from '../../hooks/use-request';
 
 export default () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [errors, setErrors] = useState([]);
+  const { doRequest, errors } = useRequest({
+    url: '/api/users/signup',
+    method: 'post',
+    body: {
+      email,
+      password,
+    },
+  });
 
   const onSubmit = async (e) => {
     e.preventDefault(); // prevents form from submitting by default
 
-    try {
-      const response = await axios.post('/api/users/signup', {
-        email,
-        password,
-      });
-
-      console.log(response.data);
-    } catch (err) {
-      setErrors(err.response.data.errors);
-    }
+    doRequest();
   };
 
   return (
@@ -32,7 +31,7 @@ export default () => {
           className='form-control'
           onChange={(e) => setEmail(e.target.value)}
         />
-        <div className='my-0'>
+        {/* <div className='my-0'>
           {errors.map((err) =>
             err.field === 'email' ? (
               <small key={err.message} style={{ color: 'red' }}>
@@ -42,7 +41,7 @@ export default () => {
               ''
             )
           )}
-        </div>
+        </div> */}
       </div>
 
       <div className='form-group'>
@@ -53,7 +52,7 @@ export default () => {
           className='form-control'
           onChange={(e) => setPassword(e.target.value)}
         />
-        <div className='my-0'>
+        {/* <div className='my-0'>
           {errors.map((err) =>
             err.field === 'password' ? (
               <small key={err.message} style={{ color: 'red' }}>
@@ -63,17 +62,10 @@ export default () => {
               ''
             )
           )}
-        </div>
+        </div> */}
       </div>
 
-      {/* <div className='alert alert-danger'>
-        <h4>Oops...</h4>
-        <ul className='my-0'>
-          {errors.map((err) => (
-            <li key={err.message}>{err.message}</li>
-          ))}
-        </ul>
-      </div> */}
+      {errors}
 
       <button className='btn btn-primary'>Sign Up</button>
     </form>
