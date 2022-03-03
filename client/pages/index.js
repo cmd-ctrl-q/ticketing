@@ -1,37 +1,21 @@
-import axios from 'axios';
+import buildClient from '../api/build-client';
 
 // Client Browser
 const LandingPage = ({ currentUser }) => {
-  // console.log(currentUser);
-  // axios.get('/api/users/currentuser').catch((err) => {
-  //   console.log(err.message);
-  // });
-
+  console.log(currentUser);
   return <h1>Landing Page</h1>;
 };
 
 // Browser or SSR
-LandingPage.getInitialProps = async ({ req }) => {
-  if (typeof window === 'undefined') {
-    console.log(req.headers);
-    // on server, request base domain must be specified
-    const { data } = await axios.get(
-      'http://ingress-nginx-controller.ingress-nginx.svc.cluster.local/api/users/currentuser',
-      {
-        withCredentials: true,
-        headers: req.headers,
-      }
-    );
+LandingPage.getInitialProps = async (context) => {
+  // const client = buildClient(context);
+  // const { data } = await clientInformation.get('/api/users/currentuser');
 
-    return data;
-  } else {
-    // on browser, request base domain doesn't have to be specified as it auto appends the headers
-    const { data } = await axios.get('/api/users/currentuser');
+  const { data } = await buildClient(context).get('/api/users/currentuser');
 
-    return data;
-  }
+  console.log(data);
 
-  return {};
+  return data;
 };
 
 export default LandingPage;
