@@ -1,15 +1,18 @@
 import mongoose, { mongo } from 'mongoose';
 import { PasswordManager } from '../services/password';
 
+// Attributes of the user model
 interface UserAttrs {
   email: string;
   password: string;
 }
 
+// A model represents the entire collection of data
 interface UserModel extends mongoose.Model<UserDoc> {
   build(attrs: UserAttrs): UserDoc;
 }
 
+// A document represents a single collection of data
 interface UserDoc extends mongoose.Document {
   email: string;
   password: string;
@@ -27,6 +30,7 @@ const userSchema = new mongoose.Schema(
     },
   },
   {
+    // manipulates the json representation of the data
     toJSON: {
       transform(_doc, ret) {
         // re-map the _id property
@@ -55,10 +59,13 @@ userSchema.pre('save', async function (done) {
   done();
 });
 
+// Type checks properties when creating a new record,
+// since there are no type-checking on the attributes that are passed in.
 userSchema.statics.build = (attrs: UserAttrs) => {
   return new User(attrs);
 };
 
+// Create user model
 const User = mongoose.model<UserDoc, UserModel>('User', userSchema);
 
 export { User };
