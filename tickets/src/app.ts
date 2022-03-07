@@ -6,6 +6,8 @@ import { errorHandler, NotFoundError, currentUser } from '@teds-tickets/common';
 
 import { createTicketRouter } from './routes/new';
 import { showTicketRouter } from './routes/show';
+import { indexTicketRouter } from './routes/index';
+import { updateTicketRouter } from './routes/update';
 
 const app = express();
 // trust traffic from ingress proxy
@@ -22,6 +24,8 @@ app.use(currentUser); // must run after cookie session
 // routes
 app.use(createTicketRouter);
 app.use(showTicketRouter);
+app.use(indexTicketRouter);
+app.use(updateTicketRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();

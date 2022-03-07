@@ -19,7 +19,7 @@ router.post(
     // res.sendStatus(200);
     const { title, price } = req.body;
 
-    const ticket = Ticket.build({
+    const ticket = await Ticket.build({
       title,
       price,
       // currentUser will be defined here because its checked by requireAuth middleware.

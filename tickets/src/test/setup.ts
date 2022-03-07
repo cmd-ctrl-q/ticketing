@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 import request from 'supertest';
 import { app } from '../app';
 import jwt from 'jsonwebtoken';
+import { createMongoID } from '../routes/__test__/utils';
 
 declare global {
   var signin: () => string[];
@@ -46,9 +47,10 @@ afterAll(async () => {
 });
 
 global.signin = () => {
+  const id = createMongoID();
   // Build a JWT payload: { id, email }
   const payload = {
-    id: '23fj9834f',
+    id,
     email: 'test@test.com',
   };
 
