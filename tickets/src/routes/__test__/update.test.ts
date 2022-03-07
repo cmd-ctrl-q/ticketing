@@ -105,6 +105,15 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
       title: 'asdf',
     })
     .expect(400);
+
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set('Cookie', cookie)
+    .send({
+      title: 'new title',
+      price: 100,
+    })
+    .expect(200);
 });
 
 it('updates the ticket provided valid inputs', async () => {});
