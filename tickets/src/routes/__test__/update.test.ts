@@ -114,6 +114,14 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
       price: 100,
     })
     .expect(200);
+
+  // Fetch updated ticket and validate it was updated with new data
+  const ticketResponse = await request(app)
+    .get(`/api/tickets/${response.body.id}`)
+    .send();
+
+  expect(ticketResponse.body.title).toEqual('new title');
+  expect(ticketResponse.body.price).toEqual(100);
 });
 
 it('updates the ticket provided valid inputs', async () => {});

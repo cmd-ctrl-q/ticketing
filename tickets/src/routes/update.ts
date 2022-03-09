@@ -33,13 +33,14 @@ router.put(
       throw new NotAuthorizedError();
     }
 
-    // update the new ticket
-    const newTicket = {
-      title: ticket.title,
-      price: ticket.price,
-    };
+    // apply update and save
+    ticket.set({
+      title: req.body.title,
+      price: req.body.price,
+    });
+    await ticket.save();
 
-    res.status(200).send(ticket);
+    res.send(ticket);
   }
 );
 
