@@ -43,7 +43,7 @@ router.put(
     await ticket.save();
 
     // emit update event to event-bus
-    await new TicketUpdatedPublisher(natsWrapper.client).publish({
+    new TicketUpdatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,

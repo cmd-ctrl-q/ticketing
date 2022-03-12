@@ -30,7 +30,7 @@ router.post(
     await ticket.save();
 
     // publish the newly created ticket to the nat streaming service
-    await new TicketCreatedPublisher(natsWrapper.client).publish({
+    new TicketCreatedPublisher(natsWrapper.client).publish({
       id: ticket.id,
       title: ticket.title,
       price: ticket.price,

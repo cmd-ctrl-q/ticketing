@@ -30,6 +30,9 @@ beforeAll(async () => {
   await mongoose.connect(mongoUri);
 });
 
+// with mock, jest will redirect the from the real nats-wrapper.ts to the fake nats-wrapper.ts
+jest.mock('../nats-wrapper.ts');
+
 // runs before each test
 beforeEach(async () => {
   const collections = await mongoose.connection.db.collections();
