@@ -35,6 +35,8 @@ jest.mock('../nats-wrapper.ts');
 
 // runs before each test
 beforeEach(async () => {
+  jest.clearAllMocks();
+
   const collections = await mongoose.connection.db.collections();
 
   // loop through data and delete before each run

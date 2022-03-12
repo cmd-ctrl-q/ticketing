@@ -1,7 +1,7 @@
 import request from 'supertest';
 import { app } from '../../app';
 import { createMongoID } from './utils';
-import { Ticket } from '../../models/ticket';
+import { natsWrapper } from '../../nats-wrapper';
 
 it('has a route handler listening to /api/tickets/:id for put requests', async () => {
   const response = await request(app).put(`/api/tickets/k48fhsb4295`).send({});
@@ -124,4 +124,24 @@ it('returns a 400 if the user provides an invalid title or price', async () => {
   expect(ticketResponse.body.price).toEqual(100);
 });
 
-it('updates the ticket provided valid inputs', async () => {});
+it('updates the ticket provided valid inputs', async () => {
+  const cookie = global.signin();
+
+  // create a new ticket
+  const response = await request(app)
+    .post(`/api/tickets`)
+    .set('Cookie', cookie)
+    .send({
+      title: 'asdf',
+      price: 20,
+    });
+
+  // update ticket with empty title
+  await request(app)
+    .put(`/api/tickets/${response.body.id}`)
+    .set('Cookie', cookie)
+    .send({ title: 'new title', price: 20 })
+    .expect(200);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});
