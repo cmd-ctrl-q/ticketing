@@ -2,6 +2,8 @@ import mongoose from 'mongoose';
 import { OrderStatus } from '@teds-tickets/common';
 import { TicketDoc } from './ticket';
 
+export { OrderStatus };
+
 // An interface that describes the properties that are required to create an Order
 interface OrderAttrs {
   userId: string; // typescript types
