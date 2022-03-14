@@ -9,15 +9,10 @@ declare global {
   var signin: () => string[];
 }
 
-// declare global {
-//   namespace NodeJS {
-//     export interface Global {
-//       signin(): Promise<string[]>;
-//     }
-//   }
-// }
-
 let mongo: any;
+
+// with mock, jest will redirect the from the real nats-wrapper.ts to the fake nats-wrapper.ts
+jest.mock('../nats-wrapper.ts');
 
 // runs before all tests are executed
 beforeAll(async () => {
@@ -29,9 +24,6 @@ beforeAll(async () => {
   // connect to in memory server
   await mongoose.connect(mongoUri);
 });
-
-// with mock, jest will redirect the from the real nats-wrapper.ts to the fake nats-wrapper.ts
-jest.mock('../nats-wrapper.ts');
 
 // runs before each test
 beforeEach(async () => {
