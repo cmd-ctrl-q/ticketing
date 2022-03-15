@@ -32,59 +32,6 @@ it('returns a status other than 401 if the user is signed in', async () => {
   expect(response.status).not.toEqual(401);
 });
 
-// it('returns a status of 404 if the user has no orders', async () => {
-//   const response = await request(app)
-//     .get('/api/orders')
-//     .set('Cookie', global.signin())
-//     .expect(404);
-// });
-
-// it('returns a status of 404 if the user has no active orders', async () => {
-//   // create a ticket
-//   const ticket = Ticket.build({
-//     title: 'concert',
-//     price: 400,
-//   });
-//   await ticket.save();
-
-//   // create an order
-//   const order = Order.build({
-//     ticket,
-//     userId: 'asdf',
-//     status: OrderStatus['Created'], // not active status
-//     expiresAt: new Date(),
-//   });
-//   await order.save();
-
-//   await request(app)
-//     .get('/api/orders')
-//     .set('Cookie', global.signin())
-//     .expect(404);
-// });
-
-// it('returns a status of 200 if the user has 1 or more active orders', async () => {
-//   // create a ticket
-//   const ticket = Ticket.build({
-//     title: 'concert',
-//     price: 400,
-//   });
-//   await ticket.save();
-
-//   // create an order
-//   const newOrder = Order.build({
-//     ticket,
-//     userId: 'asdf',
-//     status: OrderStatus['Complete'], // active status
-//     expiresAt: new Date(),
-//   });
-//   await newOrder.save();
-
-//   await request(app)
-//     .get('/api/orders')
-//     .set('Cookie', global.signin())
-//     .expect(200);
-// });
-
 it('fetches orders for a particular user', async () => {
   // create two users
   const user1 = global.signin();
