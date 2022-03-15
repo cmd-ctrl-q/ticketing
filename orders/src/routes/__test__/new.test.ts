@@ -46,7 +46,7 @@ it('returns an error if an invalid ticketId is provided', async () => {
     .expect(400);
 });
 
-it('returns an error if an no ticketId is provided', async () => {
+it('returns an error if no ticketId is provided', async () => {
   await request(app)
     .post('/api/orders')
     .set('Cookie', global.signin())
