@@ -59,11 +59,11 @@ router.post(
     });
     await order.save();
 
-    // TODO: publish an event to other services that an order was created
-    new OrderCreatedPublisher(natsWrapper.client).publish({
+    // publish an event to other services that an order was created
+    await new OrderCreatedPublisher(natsWrapper.client).publish({
       id: order.id,
       status: order.status,
-      userId: req.currentUser!.id,
+      userId: order.userId,
       expiresAt: order.expiresAt.toISOString(),
       ticket: {
         id: ticket.id,

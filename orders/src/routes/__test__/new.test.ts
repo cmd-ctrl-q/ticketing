@@ -66,7 +66,7 @@ it('returns an error if the ticket does not exist', async () => {
 it('returns an error if the ticket is already reserved', async () => {
   // create a new ticket
   const ticket = Ticket.build({
-    title: 'new concert',
+    title: 'concert',
     price: 1000,
   });
   // save the ticket
@@ -93,7 +93,7 @@ it('returns an error if the ticket is already reserved', async () => {
 it('reserves a ticket', async () => {
   // create a ticket
   const ticket = Ticket.build({
-    title: 'new concert',
+    title: 'concert',
     price: 200,
   });
   // save the ticket
@@ -107,4 +107,21 @@ it('reserves a ticket', async () => {
     .expect(201);
 });
 
-it.todo('emits an order created event');
+it('emits an order created event', async () => {
+  // create a ticket
+  const ticket = Ticket.build({
+    title: 'concert',
+    price: 200,
+  });
+  // save the ticket
+  await ticket.save();
+
+  // create a new order with linked to the ticket above
+  await request(app)
+    .post('/api/orders')
+    .set('Cookie', global.signin())
+    .send({ ticketId: ticket.id })
+    .expect(201);
+
+  expect(natsWrapper.client.publish).toHaveBeenCalled();
+});

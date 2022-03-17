@@ -31,7 +31,7 @@ router.patch(
     // save changes
     await order.save();
 
-    // TODO: publish event that order was cancelled
+    // publish event that order was cancelled
     new OrderCancelledPublisher(natsWrapper.client).publish({
       id: order.id,
       ticket: { id: order.ticket.id },
