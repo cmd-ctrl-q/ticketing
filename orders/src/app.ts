@@ -7,7 +7,7 @@ import { errorHandler, NotFoundError, currentUser } from '@teds-tickets/common';
 import { createOrderRouter } from './routes/new';
 import { showOrderRouter } from './routes/show';
 import { indexOrderRouter } from './routes/index';
-import { deleteOrderRouter } from './routes/delete';
+import { cancelOrderRouter } from './routes/cancel';
 
 const app = express();
 // trust traffic from ingress proxy
@@ -25,7 +25,7 @@ app.use(currentUser); // must run after cookie session
 app.use(createOrderRouter);
 app.use(showOrderRouter);
 app.use(indexOrderRouter);
-app.use(deleteOrderRouter);
+app.use(cancelOrderRouter);
 
 app.all('*', async (req, res) => {
   throw new NotFoundError();
